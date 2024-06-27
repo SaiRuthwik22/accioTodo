@@ -16,6 +16,23 @@ if (day < 10) {
 }
 let formattedDate = year+"-"+month+"-"+day
 
+todayTodos = todayTodos.filter((ele)=>{
+    if((String(ele.date)<String(formattedDate))){
+        completedTodos.push(ele)
+    }
+    else{
+        return ele
+    }
+})
+
+futureTodos = futureTodos.filter((ele)=>{
+    if(String(ele.date)==String(formattedDate)){
+        todayTodos.push(ele)
+    }
+    else{
+        return ele
+    }
+})
 renderToday()
 renderFuture()
 renderCompleted()
@@ -59,9 +76,7 @@ function addItem() {
 function renderToday(){
     let section1 = document.getElementById("section1")
     let count = 1
-    if(todayTodos.length>1){
-        todayTodos.sort((a,b)=>String(a.date)-String(b.date))
-    }
+    
     section1.innerHTML=" <h3>Today's TodoList</h3>"
     let todayHigh = todayTodos.filter((ele)=>{
         if(String(ele.date) == String(formattedDate)&& ele.priority == "High" && ele.completed==false){
@@ -132,9 +147,6 @@ function renderToday(){
 function renderFuture(){
     let section2 = document.getElementById("section2")
     let count = 1
-    if(futureTodos.length>1){
-        futureTodos.sort((a,b)=>String(a.date)-String(b.date))
-    }
     section2.innerHTML=" <h3>Future's TodoList</h3>"
         let futureHigh = futureTodos.filter((ele)=>ele.priority == "High")
         let futureMed = futureTodos.filter((ele)=>ele.priority=="Medium")
@@ -193,10 +205,7 @@ function renderFuture(){
 function renderCompleted(){
     let section3 = document.getElementById("section3")
     let count = 1
-    if(completedTodos.length>1){
-        completedTodos.sort((a,b)=>String(b.date)-String(a.date))
-    }
-    console.log(completedTodos)
+
     section3.innerHTML = "<h3>Completed TodoList</h3>"
     let completedHigh = completedTodos.filter((ele)=>{
         if(ele.priority == "High" ){
